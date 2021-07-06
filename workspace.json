@@ -17,7 +17,10 @@
             "polyfills": "apps/store/src/polyfills.ts",
             "tsConfig": "apps/store/tsconfig.app.json",
             "assets": ["apps/store/src/favicon.ico", "apps/store/src/assets"],
-            "styles": ["apps/store/src/styles.css","./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css"],
+            "styles": [
+              "apps/store/src/styles.css",
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -137,6 +140,27 @@
               "libs/store/ui-shared/src/**/*.ts",
               "libs/store/ui-shared/src/**/*.html"
             ]
+          }
+        }
+      }
+    },
+    "store-util-formatters": {
+      "root": "libs/store/util-formatters",
+      "sourceRoot": "libs/store/util-formatters/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/store/util-formatters/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/store/util-formatters"],
+          "options": {
+            "jestConfig": "libs/store/util-formatters/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
