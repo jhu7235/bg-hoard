@@ -1,7 +1,7 @@
-import { storeUtilFormatters } from './store-util-formatters';
+import { formatRating } from './store-util-formatters';
 
-describe('storeUtilFormatters', () => {
+describe('formatRating', () => {
   it('should work', () => {
-    expect(storeUtilFormatters()).toEqual('store-util-formatters');
+    expect(formatRating(0.123879123)).toEqual('1.2 / 10');
   });
 });
