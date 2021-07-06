@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { formatRating } from '@bg-hoard/store/util-formatters';
 import { HttpClient } from '@angular/common/http';
+import { Game } from '@bg-hoard/util-interface';
 
 @Component({
   selector: 'bg-hoard-root',
@@ -10,7 +11,6 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
   constructor(private http: HttpClient) {}
   title = 'Board Game Hoard';
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  games = this.http.get<any[]>('/api/games');
+  games = this.http.get<Game[]>('/api/games');
   formatRating = formatRating;
 }
