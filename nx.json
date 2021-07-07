@@ -1,7 +1,7 @@
 {
   "npmScope": "bg-hoard",
   "affected": {
-    "defaultBase": "main"
+    "defaultBase": "master"
   },
   "implicitDependencies": {
     "package.json": {
