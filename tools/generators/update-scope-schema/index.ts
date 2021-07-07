@@ -1,8 +1,52 @@
-import { Tree, formatFiles, installPackagesTask } from '@nrwl/devkit';
-import { libraryGenerator } from '@nrwl/workspace/generators';
+import {
+  Tree,
+  formatFiles,
+  installPackagesTask,
+  updateJson,
+  readJson,
+} from '@nrwl/devkit';
 
+const getScopes = (nxJson: any) => {
+  const projects: any[] = Object.values(nxJson.projects);
+  const allScopes: string[] = projects
+    .map((project) =>
+      project.tags
+        // take only those that point to scope
+        .filter((tag: string) => tag.startsWith('scope:'))
+    )
+    // flatten the array
+    .reduce((acc, tags) => [...acc, ...tags], [])
+    // remove prefix `scope:`
+    .map((scope: string) => scope.slice(6));
+  // remove duplicates
+  return [...new Set(allScopes)];
+};
+
+function replaceScopes(content: string, scopes: string[]): string {
+  const joinScopes = scopes.map((s) => `'${s}'`).join(' | ');
+  const PATTERN = /interface Schema \{\n.*\n.*\n\}/gm;
+  return content.replace(
+    PATTERN,
+    `interface Schema {
+  name: string;
+  directory: ${joinScopes};
+}`
+  );
+}
 export default async function (host: Tree, schema: any) {
-  await libraryGenerator(host, { name: schema.name });
+  const nxJson = readJson(host, 'nx.json');
+  const scopes = getScopes(nxJson);
+  const indexFile = host.read('tools/generators/util-lib/index.ts').toString();
+  const newFile = replaceScopes(indexFile, scopes);
+  console.log(indexFile);
+
+  host.write('tools/generators/util-lib/index.ts', newFile);
+
+  updateJson(host, 'workspace.json', (v) => {
+    v.defaultProject = 'api';
+    return v;
+  });
+  // await libraryGenerator(host, { name: schema.name });
   await formatFiles(host);
   return () => {
     installPackagesTask(host);
