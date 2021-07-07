@@ -25,6 +25,14 @@
                   "replace": "apps/api/src/environments/environment.ts",
                   "with": "apps/api/src/environments/environment.prod.ts"
                 }
+              ],
+              "externalDependencies": [
+                "@nestjs/microservices",
+                "@nestjs/microservices/microservices-module",
+                "@nestjs/websockets/socket-module",
+                "class-transformer",
+                "class-validator",
+                "cache-manager"
               ]
             }
           }
@@ -47,6 +55,20 @@
           "options": {
             "jestConfig": "apps/api/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "commands": [
+              "cp ../../../apps/api/Dockerfile .",
+              "heroku container:login",
+              "heroku container:push web -a jason-bg-hoard",
+              "heroku container:release web -a jason-bg-hoard"
+          ],
+          "cwd": "dist/apps/api",
+          "parallel": false
           }
         }
       }
