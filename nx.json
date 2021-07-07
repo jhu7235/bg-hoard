@@ -62,5 +62,6 @@
     "util-interface": {
       "tags": ["type:util", "scope:shared"]
     }
-  }
+  },
+  "defaultProject": "api"
 }

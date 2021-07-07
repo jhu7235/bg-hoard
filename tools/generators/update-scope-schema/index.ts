@@ -33,17 +33,34 @@ function replaceScopes(content: string, scopes: string[]): string {
 }`
   );
 }
+
+function setDefaultScope(nxJson: any) {
+  const projectNames = Object.keys(nxJson.projects);
+  projectNames.forEach((name) => {
+    const { tags }: { tags: string[] } = nxJson.projects[name];
+    console.log(name, tags);
+    // if no scope add default scope from project's name
+    if (!tags.find((v) => v.startsWith('scope:'))) {
+      const defaultScope = name.split('-')[0];
+      tags.push(`scope:${defaultScope}`);
+    }
+  });
+}
+
 export default async function (host: Tree, schema: any) {
   const nxJson = readJson(host, 'nx.json');
   const scopes = getScopes(nxJson);
   const indexFile = host.read('tools/generators/util-lib/index.ts').toString();
   const newFile = replaceScopes(indexFile, scopes);
-  console.log(indexFile);
-
   host.write('tools/generators/util-lib/index.ts', newFile);
 
   updateJson(host, 'workspace.json', (v) => {
     v.defaultProject = 'api';
+    return v;
+  });
+  updateJson(host, 'nx.json', (v) => {
+    v.defaultProject = 'api';
+    setDefaultScope(v);
     return v;
   });
   // await libraryGenerator(host, { name: schema.name });
