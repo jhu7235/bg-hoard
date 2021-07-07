@@ -14,10 +14,6 @@
     "directory": {
       "type": "string",
       "description": "Directory of the library",
-      "$default": {
-        "$source": "argv",
-        "index": 1
-      },
       "x-prompt": {
         "message": "Which directory would you like to create the library in?",
         "type": "list",
