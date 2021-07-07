@@ -3,17 +3,31 @@ name: Run CI checks
 on: [pull_request]
 
 jobs:
-  test-store:
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint API
+    steps:
+      - uses: actions/checkout@v1
+      - uses: bahmutov/npm-install@v1
+      - run: npm run nx affected:lint
+  build:
+    runs-on: ubuntu-latest
+    name: Build API
+    steps:
+      - uses: actions/checkout@v1
+      - uses: bahmutov/npm-install@v1
+      - run: npm run nx affected:build
+  test:
     runs-on: ubuntu-latest
     name: Test Store
     steps:
       - uses: actions/checkout@v1
       - uses: bahmutov/npm-install@v1
-      - run: npm run nx test store
-  test-api:
+      - run: npm run nx affected:test
+  e2e:
     runs-on: ubuntu-latest
-    name: Test API
+    name: E2e API
     steps:
       - uses: actions/checkout@v1
       - uses: bahmutov/npm-install@v1
-      - run: npm run nx affected:test api
+      - run: npm run nx affected:e2e
