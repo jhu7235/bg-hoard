@@ -164,6 +164,13 @@
             "jestConfig": "apps/store/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "yarn surge dist/apps/store ${SURGE_DOMAIN_STORE} --token ${SURGE_TOKEN}"
+          }
         }
       }
     },
