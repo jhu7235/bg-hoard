@@ -9,25 +9,25 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: bahmutov/npm-install@v1
-      - run: npm run nx affected:lint
+      - run: npm run nx affected:lint --base=origin/master
   build:
     runs-on: ubuntu-latest
     name: Build API
     steps:
       - uses: actions/checkout@v1
       - uses: bahmutov/npm-install@v1
-      - run: npm run nx affected:build
+      - run: npm run nx affected:build --base=origin/master
   test:
     runs-on: ubuntu-latest
     name: Test Store
     steps:
       - uses: actions/checkout@v1
       - uses: bahmutov/npm-install@v1
-      - run: npm run nx affected:test
+      - run: npm run nx affected:test --base=origin/master
   e2e:
     runs-on: ubuntu-latest
     name: E2e API
     steps:
       - uses: actions/checkout@v1
       - uses: bahmutov/npm-install@v1
-      - run: npm run nx affected:e2e
+      - run: npm run nx affected:e2e --base=origin/master
