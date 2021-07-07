@@ -22,7 +22,7 @@ describe('AppService', () => {
   describe('getGame', () => {
     it('should return specified game', () => {
       expect(service.getGame('settlers-in-the-can').id).toEqual(
-        'settlers-in-the-ca'
+        'settlers-in-the-can'
       );
     });
   });
